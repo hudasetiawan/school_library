@@ -49,6 +49,18 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        // Cek status akun setelah autentikasi berhasil
+        $user = Auth::user();
+        if ($user->status === 'pending' && !$user->isAdmin()) {
+            Auth::guard('web')->logout();
+
+            RateLimiter::hit($this->throttleKey());
+
+            throw ValidationException::withMessages([
+                'email' => 'Akun Anda masih dalam tahap peninjauan. Silakan tunggu persetujuan Admin.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 

@@ -5,13 +5,33 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\BookRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BookRequestController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $requests = auth()->user()->bookRequests()->latest()->paginate(10);
-        return view('user.requests.index', compact('requests'));
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        $perPage = (int) $request->input('per_page', 10);
+        $search = $request->input('search');
+        $status = $request->input('status');
+
+        $requests = $user->bookRequests()
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('judul', 'like', "%{$search}%")
+                      ->orWhere('penulis', 'like', "%{$search}%");
+                });
+            })
+            ->when($status, function ($query, $status) {
+                $query->where('status', $status);
+            })
+            ->latest()
+            ->paginate($perPage);
+
+        return view('user.requests.index', compact('requests', 'perPage', 'search', 'status'));
     }
 
     public function create()
@@ -29,7 +49,9 @@ class BookRequestController extends Controller
             'alasan' => 'nullable|string',
         ]);
 
-        auth()->user()->bookRequests()->create($validated);
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $user->bookRequests()->create($validated);
 
         return redirect()->route('requests.index')->with('success', 'Pengajuan buku berhasil dikirim.');
     }

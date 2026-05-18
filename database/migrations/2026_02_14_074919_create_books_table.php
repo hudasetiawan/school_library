@@ -13,13 +13,16 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_buku')->unique();
+            $table->string('kode_buku', 50)->unique();
             $table->string('judul');
+            $table->string('slug')->unique(); // Penting untuk performa URL katalog
             $table->string('penulis');
             $table->string('penerbit');
             $table->year('tahun_terbit');
-            $table->string('kategori');
-            $table->integer('stok')->default(0);
+            $table->foreignId('category_id')->constrained()->restrictOnDelete(); // Relasi ke tabel categories
+            $table->integer('total_eksemplar')->default(0); // Total fisik yang tercatat
+            $table->integer('stok_tersedia')->default(0); // Real-time jumlah di rak
+            $table->string('cover_image')->nullable();
             $table->timestamps();
         });
     }

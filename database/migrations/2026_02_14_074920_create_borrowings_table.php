@@ -18,7 +18,9 @@ return new class extends Migration
             $table->date('tanggal_pinjam');
             $table->date('tanggal_jatuh_tempo');
             $table->date('tanggal_kembali')->nullable();
-            $table->enum('status', ['dipinjam', 'dikembalikan'])->default('dipinjam');
+            $table->enum('status', ['dipinjam', 'dikembalikan', 'terlambat', 'hilang'])->default('dipinjam');
+            $table->integer('denda')->default(0); // Bisa dibiarkan 0 jika tidak ada denda
+            $table->text('catatan_pengembalian')->nullable(); // Menampung info kondisi buku
             $table->timestamps();
         });
     }

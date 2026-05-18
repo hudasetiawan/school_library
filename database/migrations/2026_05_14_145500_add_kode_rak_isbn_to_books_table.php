@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('borrowings', function (Blueprint $table) {
-            $table->integer('denda')->default(0)->after('status');
+        Schema::table('books', function (Blueprint $table) {
+            $table->string('kode_rak', 50)->nullable()->after('category_id');
+            $table->string('isbn', 20)->nullable()->unique()->after('kode_rak');
         });
     }
 
@@ -21,8 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('borrowings', function (Blueprint $table) {
-            $table->dropColumn('denda');
+        Schema::table('books', function (Blueprint $table) {
+            $table->dropUnique(['isbn']);
+            $table->dropColumn(['kode_rak', 'isbn']);
         });
     }
 };

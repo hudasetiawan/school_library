@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Borrowing extends Model
 {
@@ -14,20 +15,36 @@ class Borrowing extends Model
         'tanggal_kembali',
         'status',
         'denda',
+        'catatan_pengembalian',
     ];
 
-    protected $casts = [
-        'tanggal_pinjam' => 'date',
-        'tanggal_jatuh_tempo' => 'date',
-        'tanggal_kembali' => 'date',
-    ];
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'tanggal_pinjam' => 'date',
+            'tanggal_jatuh_tempo' => 'date',
+            'tanggal_kembali' => 'date',
+            'denda' => 'integer',
+        ];
+    }
 
-    public function user()
+    /**
+     * Get the user who made this borrowing.
+     */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function book()
+    /**
+     * Get the book being borrowed.
+     */
+    public function book(): BelongsTo
     {
         return $this->belongsTo(Book::class);
     }

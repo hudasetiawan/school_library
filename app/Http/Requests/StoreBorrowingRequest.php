@@ -22,8 +22,36 @@ class StoreBorrowingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'book_id' => 'required|exists:books,id',
+            'book_id'             => 'required|exists:books,id',
             'tanggal_jatuh_tempo' => 'required|date|after:today',
+        ];
+    }
+
+    /**
+     * Get custom attribute names for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function attributes(): array
+    {
+        return [
+            'book_id'             => 'Buku',
+            'tanggal_jatuh_tempo' => 'Tanggal Kembali',
+        ];
+    }
+
+    /**
+     * Get custom validation messages.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'book_id.required'             => 'Buku wajib dipilih.',
+            'book_id.exists'               => 'Buku yang dipilih tidak valid.',
+            'tanggal_jatuh_tempo.required'  => 'Tanggal kembali wajib diisi.',
+            'tanggal_jatuh_tempo.after'     => 'Tanggal kembali harus setelah hari ini.',
         ];
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\BookController as AdminBookController;
+use App\Http\Controllers\Admin\BorrowingController as AdminBorrowingController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
@@ -25,12 +27,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Admin Routes
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('books', AdminBookController::class);
-        Route::get('/borrowings', [\App\Http\Controllers\Admin\BorrowingController::class, 'index'])->name('borrowings.index');
-        Route::post('/borrowings/{borrowing}/return', [TransactionController::class, 'returnBook'])->name('borrowings.return');
-        Route::get('/requests', [\App\Http\Controllers\Admin\BookRequestController::class, 'index'])->name('requests.index');
+        Route::resource('users', AdminUserController::class)->except(['show']);
+        Route::post('/users/{user}/approve', [AdminUserController::class, 'approve'])->name('users.approve');
+        Route::post('/users/{user}/reject', [AdminUserController::class, 'reject'])->name('users.reject');
+        Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class)->only(['index', 'store', 'update', 'destroy']);
+
+        // Borrowing management
+        Route::get('/borrowings', [AdminBorrowingController::class, 'index'])->name('borrowings.index');
+        Route::post('/borrowings/{borrowing}/approve', [AdminBorrowingController::class, 'approve'])->name('borrowings.approve');
+        Route::post('/borrowings/{borrowing}/reject', [AdminBorrowingController::class, 'reject'])->name('borrowings.reject');
+        Route::post('/borrowings/{borrowing}/return', [AdminBorrowingController::class, 'returnBook'])->name('borrowings.return');
+
+        // Book Requests
         Route::get('/requests', [\App\Http\Controllers\Admin\BookRequestController::class, 'index'])->name('requests.index');
         Route::patch('/requests/{bookRequest}', [\App\Http\Controllers\Admin\BookRequestController::class, 'update'])->name('requests.update');
-        
+
         // Menfess Routes
         Route::get('/menfess', [\App\Http\Controllers\Admin\MenfessController::class, 'index'])->name('menfess.index');
         Route::patch('/menfess/{menfess}', [\App\Http\Controllers\Admin\MenfessController::class, 'update'])->name('menfess.update');
@@ -42,7 +53,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/books/{book}', [UserBookController::class, 'show'])->name('books.show');
     Route::post('/borrow', [TransactionController::class, 'borrow'])->name('borrow.store');
     Route::get('/my-borrowings', [UserBorrowingController::class, 'index'])->name('borrowings.index');
-    
+
     // User Request Routes
     Route::resource('requests', \App\Http\Controllers\User\BookRequestController::class)->only(['index', 'create', 'store']);
 

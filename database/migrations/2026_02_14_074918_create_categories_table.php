@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('books', function (Blueprint $table) {
-            $table->string('cover_image')->nullable()->after('kategori');
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama_kategori')->unique();
+            $table->string('slug')->unique(); // Untuk URL ramah SEO/Kinerja
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('books', function (Blueprint $table) {
-            $table->dropColumn('cover_image');
-        });
+        Schema::dropIfExists('categories');
     }
 };

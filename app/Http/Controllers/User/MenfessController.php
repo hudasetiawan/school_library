@@ -9,16 +9,18 @@ use Illuminate\Http\Request;
 
 class MenfessController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = (int) $request->input('per_page', 10);
+
         $menfesses = Menfess::with('book')
             ->where('status', 'approved')
             ->latest()
-            ->paginate(10);
+            ->paginate($perPage);
             
         $books = Book::all(); // optimize later if too many books
 
-        return view('user.menfess.index', compact('menfesses', 'books'));
+        return view('user.menfess.index', compact('menfesses', 'books', 'perPage'));
     }
 
     public function store(Request $request)

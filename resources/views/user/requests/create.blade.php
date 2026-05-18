@@ -1,21 +1,27 @@
 <x-app-layout>
+    <x-slot name="title">Ajukan Buku Baru</x-slot>
+
     <div class="space-y-8" data-animate="fade-in-up">
         
-        <!-- Breadcrumb / Back -->
-        <div>
-            <a href="{{ route('requests.index') }}" class="inline-flex items-center text-gray-500 hover:text-gray-900 transition-colors font-medium">
-                <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                Kembali ke Daftar Pengajuan
+        {{-- Page Header --}}
+        <div class="flex items-center gap-4">
+            <a href="{{ route('requests.index') }}"
+               class="p-2 text-muted-foreground hover:text-muted-foreground hover:bg-card rounded-xl transition-all duration-200 border border-transparent hover:border-border hover:shadow-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
             </a>
+            <div>
+                <h1 class="text-2xl font-bold text-foreground tracking-tight">Ajukan Buku Baru</h1>
+                <p class="text-sm text-muted-foreground mt-0.5">Bantu kami melengkapi koleksi perpustakaan dengan rekomendasi Anda.</p>
+            </div>
         </div>
 
         <div class="max-w-2xl mx-auto">
             <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-gray-900 tracking-tight">Ajukan Buku Baru</h2>
-                <p class="text-gray-500 mt-2">Bantu kami melengkapi koleksi perpustakaan dengan rekomendasi Anda.</p>
+                <h2 class="text-3xl font-bold text-foreground tracking-tight">Ajukan Buku Baru</h2>
+                <p class="text-muted-foreground mt-2">Bantu kami melengkapi koleksi perpustakaan dengan rekomendasi Anda.</p>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 md:p-10 relative overflow-hidden">
+            <div class="bg-card rounded-2xl shadow-sm border border-border p-8 md:p-10 relative overflow-hidden">
                  <!-- Decorative top border -->
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 to-blue-500"></div>
 
@@ -44,7 +50,7 @@
 
                     <div>
                         <x-input-label for="kategori" :value="__('Kategori (Opsional)')" class="mb-2" />
-                        <select id="kategori" name="kategori" class="block w-full rounded-xl border-gray-300 focus:border-green-500 focus:ring-green-500 shadow-sm transition">
+                        <select id="kategori" name="kategori" class="block w-full rounded-xl border-border focus:border-primary focus:ring-ring shadow-sm transition">
                             <option value="">Pilih Kategori...</option>
                             <option value="Fiksi">Fiksi</option>
                             <option value="Non-Fiksi">Non-Fiksi</option>
@@ -58,14 +64,14 @@
 
                     <div>
                         <x-input-label for="alasan" :value="__('Alasan Pengajuan (Opsional)')" class="mb-2" />
-                        <textarea id="alasan" name="alasan" class="block w-full rounded-xl border-gray-300 focus:border-green-500 focus:ring-green-500 shadow-sm transition" rows="4" placeholder="Mengapa buku ini layak ada di perpustakaan?">{{ old('alasan') }}</textarea>
+                        <textarea id="alasan" name="alasan" class="block w-full rounded-xl border-border focus:border-primary focus:ring-ring shadow-sm transition" rows="4" placeholder="Mengapa buku ini layak ada di perpustakaan?">{{ old('alasan') }}</textarea>
                         <x-input-error :messages="$errors->get('alasan')" class="mt-2" />
                     </div>
 
                     <div class="pt-4">
-                        <button type="submit" class="w-full bg-gray-900 text-white rounded-xl px-4 py-4 font-bold shadow-lg hover:bg-black transition-all transform hover:-translate-y-1 hover:shadow-xl flex justify-center items-center gap-2">
+                        <button type="submit" class="w-full cursor-pointer bg-primary text-background rounded-xl px-4 py-4 font-bold shadow-lg hover:bg-primary/90 transition-all transform hover:-translate-y-1 hover:shadow-xl flex justify-center items-center gap-2">
                             <span>Kirim Pengajuan</span>
-                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            <svg class="w-4 h-4 text-background" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                         </button>
                     </div>
                 </form>

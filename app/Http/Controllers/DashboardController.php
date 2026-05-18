@@ -6,7 +6,6 @@ use App\Models\Book;
 use App\Models\Borrowing;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
 class DashboardController extends Controller
 {
@@ -15,17 +14,17 @@ class DashboardController extends Controller
         if (auth()->user()->isAdmin()) {
             $totalBooks = Book::count();
             $totalUsers = User::where('role', 'user')->count();
-            $activeBorrowings = Borrowing::where('status', 'dipinjam')->count();
-            // $monthlyStats = ... (optional chart data)
+            $activeBorrowings = Borrowing::where('status', 'disetujui')->count();
+            $pendingBorrowings = Borrowing::where('status', 'pending')->count();
 
-            return view('dashboard', compact('totalBooks', 'totalUsers', 'activeBorrowings'));
+            return view('dashboard', compact('totalBooks', 'totalUsers', 'activeBorrowings', 'pendingBorrowings'));
         }
 
-        // For regular user, maybe show their active borrowings count?
+        // For regular user
         $myActiveBorrowings = Borrowing::where('user_id', auth()->id())
-            ->where('status', 'dipinjam')
+            ->whereIn('status', ['pending', 'disetujui'])
             ->count();
-            
+
         return view('dashboard', compact('myActiveBorrowings'));
     }
 }

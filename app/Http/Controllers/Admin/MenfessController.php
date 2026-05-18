@@ -11,6 +11,7 @@ class MenfessController extends Controller
     public function index(Request $request)
     {
         $status = $request->input('status', 'pending');
+        $perPage = (int) $request->input('per_page', 10);
         
         $menfesses = Menfess::with(['user', 'book', 'reports'])
             ->when($status, function ($query) use ($status) {
@@ -20,9 +21,9 @@ class MenfessController extends Controller
             })
             ->withCount('reports')
             ->latest()
-            ->paginate(10);
+            ->paginate($perPage);
             
-        return view('admin.menfess.index', compact('menfesses', 'status'));
+        return view('admin.menfess.index', compact('menfesses', 'status', 'perPage'));
     }
 
     public function update(Request $request, Menfess $menfess)
