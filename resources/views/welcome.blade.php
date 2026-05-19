@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,7 +28,7 @@
                     <span class="font-bold text-xl tracking-tight text-foreground">Perpus <span class="text-primary">SMKN 2 Magelang</span></span>
                 </div>
 
-                <!-- Navigation Links -->
+                <!-- Desktop Navigation Links -->
                 <div class="hidden sm:flex sm:items-center sm:gap-6">
                     @if (Route::has('login'))
                         @auth
@@ -41,6 +41,33 @@
                         @endauth
                     @endif
                 </div>
+
+                <!-- Mobile Hamburger Button -->
+                <button type="button" id="mobile-menu-btn"
+                        class="sm:hidden cursor-pointer inline-flex items-center justify-center p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-ring/20">
+                    <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                    <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden sm:hidden border-t border-border bg-card/95 backdrop-blur-md">
+            <div class="px-4 py-4 space-y-3">
+                @if (Route::has('login'))
+                    @auth
+                        <a href="{{ url('/dashboard') }}" class="block w-full text-center font-medium text-foreground bg-muted px-4 py-3 rounded-xl hover:bg-muted/80 transition">Dashboard</a>
+                    @else
+                        <a href="{{ route('login') }}" class="block w-full text-center font-medium text-foreground bg-muted px-4 py-3 rounded-xl hover:bg-muted/80 transition">Masuk</a>
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="block w-full text-center font-medium bg-primary text-white px-4 py-3 rounded-xl hover:bg-primary/90 transition shadow-lg shadow-primary/10">Daftar Sekarang</a>
+                        @endif
+                    @endauth
+                @endif
             </div>
         </div>
     </nav>
@@ -108,7 +135,7 @@
                                     <!-- Overlay Gradient -->
                                     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                     
-                                    <!-- Quick Action -->
+                                    <!-- Quick Action — tetap mengarah ke route auth, middleware akan redirect -->
                                     <div class="absolute bottom-4 left-4 right-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                                         <a href="{{ route('books.show', $book) }}" class="block w-full py-3 bg-card/10 backdrop-blur-md border border-white/20 text-white text-center rounded-xl font-semibold hover:bg-card hover:text-foreground transition-colors">
                                             Lihat Detail
@@ -147,21 +174,26 @@
         </section>
 
         <!-- Stats Section -->
+        {{-- Statistik dinamis dari controller:
+             $totalBuku       = Book::sum('total_eksemplar')
+             $totalAnggota    = User::where('role','user')->where('status','approved')->count()
+             $totalPeminjaman = Borrowing::count()
+        --}}
         <section class="py-20 bg-foreground text-white relative overflow-hidden">
             <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                     <div class="p-6">
-                        <div class="text-4xl md:text-5xl font-bold text-primary/70 mb-2">2000+</div>
-                        <div class="text-muted-foreground font-medium">Judul Buku</div>
+                        <div class="text-4xl md:text-5xl font-bold text-primary/70 mb-2">{{ number_format($totalBuku) }}</div>
+                        <div class="text-muted-foreground font-medium">Eksemplar Buku</div>
                     </div>
                     <div class="p-6">
-                        <div class="text-4xl md:text-5xl font-bold text-blue-400 mb-2">1500+</div>
+                        <div class="text-4xl md:text-5xl font-bold text-blue-400 mb-2">{{ number_format($totalAnggota) }}</div>
                         <div class="text-muted-foreground font-medium">Anggota Aktif</div>
                     </div>
                     <div class="p-6">
-                        <div class="text-4xl md:text-5xl font-bold text-purple-400 mb-2">50+</div>
-                        <div class="text-muted-foreground font-medium">Kunjungan/Hari</div>
+                        <div class="text-4xl md:text-5xl font-bold text-purple-400 mb-2">{{ number_format($totalPeminjaman) }}</div>
+                        <div class="text-muted-foreground font-medium">Total Peminjaman</div>
                     </div>
                     <div class="p-6">
                         <div class="text-4xl md:text-5xl font-bold text-orange-400 mb-2">24/7</div>
@@ -174,7 +206,7 @@
         <!-- Footer -->
         <footer class="bg-card border-t border-border py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                     <div>
                         <div class="flex items-center gap-3 mb-6">
                             <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
@@ -182,22 +214,13 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                                 </svg>
                             </div>
-                            <span class="font-bold text-lg text-foreground">Perpus SMKN 2</span>
+                            <span class="font-bold text-lg text-foreground">Perpus SMKN 2 Magelang</span>
                         </div>
                         <p class="text-muted-foreground leading-relaxed">
                             Menyediakan layanan literasi digital terbaik untuk mendukung kegiatan belajar mengajar di lingkungan SMKN 2 Magelang.
                         </p>
                     </div>
-                    <div>
-                        <h4 class="font-bold text-foreground mb-6">Tautan Cepat</h4>
-                        <ul class="space-y-4 text-muted-foreground">
-                            <li><a href="#" class="hover:text-primary transition">Tentang Kami</a></li>
-                            <li><a href="#" class="hover:text-primary transition">Katalog Buku</a></li>
-                            <li><a href="#" class="hover:text-primary transition">Tata Tertib</a></li>
-                            <li><a href="#" class="hover:text-primary transition">Kontak</a></li>
-                        </ul>
-                    </div>
-                    <div>
+                    <div class="md:justify-self-end">
                         <h4 class="font-bold text-foreground mb-6">Hubungi Kami</h4>
                         <ul class="space-y-4 text-muted-foreground">
                             <li class="flex items-start gap-3">
@@ -235,5 +258,22 @@
             100% { transform: translate(0px, 0px) scale(1); }
         }
     </style>
+
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            const hamburgerIcon = document.getElementById('hamburger-icon');
+            const closeIcon = document.getElementById('close-icon');
+
+            btn.addEventListener('click', function () {
+                const isOpen = !menu.classList.contains('hidden');
+                menu.classList.toggle('hidden');
+                hamburgerIcon.classList.toggle('hidden', !isOpen);
+                closeIcon.classList.toggle('hidden', isOpen);
+            });
+        });
+    </script>
 </body>
 </html>

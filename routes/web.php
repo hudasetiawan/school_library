@@ -12,7 +12,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $books = \App\Models\Book::latest()->take(4)->get();
-    return view('welcome', compact('books'));
+
+    // Statistik dinamis untuk landing page
+    // Book::sum('total_eksemplar') — total semua eksemplar buku
+    $totalBuku = \App\Models\Book::sum('total_eksemplar');
+    // User approved dengan role 'user' — anggota aktif
+    $totalAnggota = \App\Models\User::where('role', 'user')->where('status', 'approved')->count();
+    // Borrowing::count() — total seluruh transaksi peminjaman
+    $totalPeminjaman = \App\Models\Borrowing::count();
+
+    return view('welcome', compact('books', 'totalBuku', 'totalAnggota', 'totalPeminjaman'));
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
