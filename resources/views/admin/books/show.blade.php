@@ -66,7 +66,7 @@
                                 <p class="text-sm font-semibold text-foreground">{{ $book->tahun_terbit }}</p>
                             </div>
                             <div class="bg-muted rounded-xl p-4">
-                                <p class="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">Slug</p>
+                                <p class="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">Judul Buku</p>
                                 <p class="text-sm font-semibold text-foreground font-mono truncate">{{ $book->slug }}</p>
                             </div>
                             <div class="bg-muted rounded-xl p-4">

@@ -19,7 +19,7 @@
 
         {{-- Tombol "+ Kategori Baru" --}}
         <button type="button" @click="showModal = true"
-                class="flex-shrink-0 inline-flex items-center gap-1.5 bg-primary/10 text-primary px-3.5 py-2.5 rounded-xl text-sm font-semibold hover:bg-primary/20 transition-colors border border-primary/20">
+                class="cursor-pointer flex-shrink-0 inline-flex items-center gap-1.5 bg-primary/10 text-primary px-3.5 py-2.5 rounded-xl text-sm font-semibold hover:bg-primary/20 transition-colors border border-primary/20">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
             <span class="hidden sm:inline">Kategori Baru</span>
         </button>
@@ -45,7 +45,7 @@
                     <h3 class="text-lg font-bold text-card-foreground">Tambah Kategori</h3>
                     <p class="text-xs text-muted-foreground mt-0.5">Kategori baru akan langsung tersedia.</p>
                 </div>
-                <button type="button" @click="closeModal()" class="p-1.5 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors">
+                <button type="button" @click="closeModal()" class="cursor-pointer p-1.5 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
@@ -71,11 +71,11 @@
             {{-- Modal Footer --}}
             <div class="px-6 py-4 bg-muted/80 border-t border-border flex items-center justify-end gap-3">
                 <button type="button" @click="closeModal()"
-                        class="text-sm text-muted-foreground hover:text-foreground font-medium transition-colors px-4 py-2">
+                        class="cursor-pointer text-sm text-muted-foreground hover:text-foreground font-medium transition-colors px-4 py-2">
                     Batal
                 </button>
                 <button type="button" @click="submitCategory()" :disabled="loading"
-                        class="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                        class="cursor-pointer inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
                     <svg x-show="loading" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>

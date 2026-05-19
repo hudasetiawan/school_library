@@ -161,4 +161,29 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', "Pendaftaran \"{$name}\" ditolak dan data akun telah dihapus dari sistem.");
     }
+
+    /**
+     * Reset a user's account to default credentials (NIS-based email + default password).
+     */
+    public function resetAccount(User $user): RedirectResponse
+    {
+        // Cegah admin me-reset akun sendiri
+        if ($user->id === auth()->id()) {
+            return redirect()->back()->with('error', 'Anda tidak dapat me-reset akun Anda sendiri.');
+        }
+
+        // Validasi: pastikan nomor_induk (NIS) tersedia
+        if (empty($user->nomor_induk)) {
+            return redirect()->back()->with('error', 'Gagal memproses. NIS siswa tidak ditemukan!');
+        }
+
+        $newEmail = $user->nomor_induk . '@smkn2magelang.sch.id';
+
+        $user->email    = $newEmail;
+        $user->password = Hash::make('password');
+        $user->save();
+
+        return redirect()->route('admin.users.index')
+            ->with('success', "Akun berhasil di-reset! Email baru: {$newEmail}, Password: password");
+    }
 }
