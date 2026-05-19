@@ -25,7 +25,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                         </svg>
                     </div>
-                    <span class="font-bold text-xl tracking-tight text-foreground">Perpus <span class="text-primary">SMKN 2 Magelang</span></span>
+                    <span class="font-bold text-lg sm:text-xl tracking-tight text-foreground">Perpus <span class="text-primary">SMKN 2 Magelang</span></span>
                 </div>
 
                 <!-- Desktop Navigation Links -->
@@ -74,7 +74,7 @@
 
     <!-- Hero Section -->
     <main class="pt-20">
-        <section class="relative pt-20 pb-32 overflow-hidden">
+        <section class="relative pt-12 pb-20 sm:pt-20 sm:pb-32 overflow-hidden">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div class="text-center max-w-3xl mx-auto opacity-0" data-animate="fade-in-up">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/10 text-primary text-sm font-medium mb-6">
@@ -84,11 +84,11 @@
                         </span>
                         Perpustakaan Digital Modern
                     </div>
-                    <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-foreground mb-8 leading-tight font-serif">
+                    <h1 class="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-foreground mb-6 sm:mb-8 leading-tight font-serif">
                         Jelajahi Dunia Lewat <br>
                         <span class="text-primary">Buku & Pengetahuan</span>
                     </h1>
-                    <p class="text-lg md:text-xl text-muted-foreground mb-10 leading-relaxed max-w-2xl mx-auto">
+                    <p class="text-base sm:text-lg md:text-xl text-muted-foreground mb-8 sm:mb-10 leading-relaxed max-w-2xl mx-auto px-2 sm:px-0">
                         Akses ribuan koleksi buku, jurnal, dan referensi akademik secara mudah. Tingkatkan literasi dan wawasanmu bersama SMKN 2 Magelang.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -109,14 +109,14 @@
         </section>
 
         <!-- Featured Books Section -->
-        <section id="featured" class="py-24 bg-card relative">
+        <section id="featured" class="py-16 sm:py-24 bg-card relative">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-16 opacity-0" data-animate="fade-in-up">
-                    <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-4 font-serif">Koleksi Terbaru</h2>
+                <div class="text-center mb-10 sm:mb-16 opacity-0" data-animate="fade-in-up">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 sm:mb-4 font-serif">Koleksi Terbaru</h2>
                     <p class="text-muted-foreground text-lg">Buku-buku pilihan yang baru saja ditambahkan ke perpustakaan.</p>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
                     @foreach($books as $book)
                         <div class="group opacity-0" data-animate="fade-in-up" style="animation-delay: {{ $loop->index * 100 }}ms">
                             <div class="relative bg-background rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-border hover:-translate-y-2 border border-border h-full flex flex-col">
@@ -144,18 +144,18 @@
                                 </div>
 
                                 <!-- Content -->
-                                <div class="p-6 flex-1 flex flex-col">
+                                <div class="p-4 sm:p-6 flex-1 flex flex-col">
                                     <div class="flex items-center gap-2 mb-3">
                                         <span class="px-2.5 py-1 bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider rounded-lg">
                                             {{ $book->kategori ?? 'Umum' }}
                                         </span>
                                     </div>
-                                    <h3 class="text-xl font-bold text-foreground mb-2 font-serif line-clamp-2 group-hover:text-primary transition-colors">
+                                    <h3 class="text-sm sm:text-xl font-bold text-foreground mb-1 sm:mb-2 font-serif line-clamp-2 group-hover:text-primary transition-colors">
                                         <a href="{{ route('books.show', $book) }}">
                                             {{ $book->judul }}
                                         </a>
                                     </h3>
-                                    <p class="text-muted-foreground text-sm mb-4 line-clamp-1">{{ $book->penulis }}</p>
+                                    <p class="text-muted-foreground text-xs sm:text-sm mb-2 sm:mb-4 line-clamp-1">{{ $book->penulis }}</p>
                                 </div>
                             </div>
                         </div>
@@ -179,34 +179,34 @@
              $totalAnggota    = User::where('role','user')->where('status','approved')->count()
              $totalPeminjaman = Borrowing::count()
         --}}
-        <section class="py-20 bg-foreground text-white relative overflow-hidden">
+        <section class="py-12 sm:py-20 bg-foreground text-white relative overflow-hidden">
             <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                    <div class="p-6">
-                        <div class="text-4xl md:text-5xl font-bold text-primary/70 mb-2">{{ number_format($totalBuku) }}</div>
-                        <div class="text-muted-foreground font-medium">Eksemplar Buku</div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 text-center">
+                    <div class="p-3 sm:p-6">
+                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-primary/70 mb-1 sm:mb-2">{{ number_format($totalBuku) }}</div>
+                        <div class="text-xs sm:text-sm text-muted-foreground font-medium">Eksemplar Buku</div>
                     </div>
-                    <div class="p-6">
-                        <div class="text-4xl md:text-5xl font-bold text-blue-400 mb-2">{{ number_format($totalAnggota) }}</div>
-                        <div class="text-muted-foreground font-medium">Anggota Aktif</div>
+                    <div class="p-3 sm:p-6">
+                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-400 mb-1 sm:mb-2">{{ number_format($totalAnggota) }}</div>
+                        <div class="text-xs sm:text-sm text-muted-foreground font-medium">Anggota Aktif</div>
                     </div>
-                    <div class="p-6">
-                        <div class="text-4xl md:text-5xl font-bold text-purple-400 mb-2">{{ number_format($totalPeminjaman) }}</div>
-                        <div class="text-muted-foreground font-medium">Total Peminjaman</div>
+                    <div class="p-3 sm:p-6">
+                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-purple-400 mb-1 sm:mb-2">{{ number_format($totalPeminjaman) }}</div>
+                        <div class="text-xs sm:text-sm text-muted-foreground font-medium">Total Peminjaman</div>
                     </div>
-                    <div class="p-6">
-                        <div class="text-4xl md:text-5xl font-bold text-orange-400 mb-2">24/7</div>
-                        <div class="text-muted-foreground font-medium">Akses Online</div>
+                    <div class="p-3 sm:p-6">
+                        <div class="text-3xl sm:text-4xl md:text-5xl font-bold text-orange-400 mb-1 sm:mb-2">24/7</div>
+                        <div class="text-xs sm:text-sm text-muted-foreground font-medium">Akses Online</div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Footer -->
-        <footer class="bg-card border-t border-border py-12">
+        <footer class="bg-card border-t border-border py-8 sm:py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12">
                     <div>
                         <div class="flex items-center gap-3 mb-6">
                             <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
@@ -229,7 +229,7 @@
                             </li>
                             <li class="flex items-center gap-3">
                                 <svg class="w-6 h-6 text-primary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                                <span>perpustakaan@smkn2magelang.sch.id</span>
+                                <span class="break-all sm:break-normal">perpustakaan@smkn2magelang.sch.id</span>
                             </li>
                         </ul>
                     </div>
