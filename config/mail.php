@@ -115,4 +115,18 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Global Test Recipient (Interceptor)
+    |--------------------------------------------------------------------------
+    |
+    | Jika diisi dan environment bukan 'production', SEMUA email keluar
+    | akan dialihkan ke alamat ini menggunakan Mail::alwaysTo().
+    | Berguna untuk pengujian di staging agar email tidak terkirim
+    | ke alamat asli siswa yang ada di database.
+    |
+    */
+
+    'test_recipient' => env('MAIL_TEST_RECIPIENT', null),
+
 ];

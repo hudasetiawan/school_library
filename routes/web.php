@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\User\BookController as UserBookController;
 use App\Http\Controllers\User\BorrowingController as UserBorrowingController;
+use App\Http\Controllers\Testing\GtmetrixBypassController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -73,4 +74,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/menfess/{menfess}/report', [\App\Http\Controllers\User\MenfessController::class, 'report'])->name('menfess.report');
 });
 
-require __DIR__.'/auth.php';
+// ================================================================
+// ROUTE PENGUJIAN PERFORMA GTmetrix (ISO/IEC 25010:2023)
+// Aktif HANYA jika GTMETRIX_TESTING=true di file .env
+// ================================================================
+if (env('GTMETRIX_TESTING') === true) {
+    Route::prefix('gtmetrix')->name('gtmetrix.')->group(function () {
+        Route::get('/login', [GtmetrixBypassController::class, 'login'])->name('login');
+        Route::get('/dashboard', [GtmetrixBypassController::class, 'dashboard'])->name('dashboard');
+        Route::get('/katalog', [GtmetrixBypassController::class, 'katalog'])->name('katalog');
+        Route::get('/kelola-buku', [GtmetrixBypassController::class, 'kelolaBuku'])->name('kelola-buku');
+        Route::get('/peminjaman', [GtmetrixBypassController::class, 'peminjaman'])->name('peminjaman');
+        Route::get('/anggota', [GtmetrixBypassController::class, 'anggota'])->name('anggota');
+    });
+}
+
+require __DIR__ . '/auth.php';
